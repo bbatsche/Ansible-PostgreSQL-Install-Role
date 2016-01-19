@@ -6,14 +6,11 @@ language: generic
 
 before_install:
   # Remove the PostgreSQL installed by Travis
-  - sudo apt-get purge '^postgresql.*' -y
-  - sudo apt-get autoremove -y -qq
-  - sudo rm -rf /etc/postgresql
-  - sudo rm -rf /var/lib/postgresql
-  - sudo rm -f /etc/apt/sources.list.d/pgdg-source.list
-
   - sudo apt-get update -qq
   - sudo apt-get install -qq python-apt python-pycurl
+
+  - sudo apt-get install -qq postgresql postgresql-contrib
+  - psql --version
 install:
   - sudo pip install "ansible~=1.9"
 script:
