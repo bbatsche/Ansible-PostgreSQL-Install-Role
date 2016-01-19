@@ -20,12 +20,12 @@
     - postgres
     - all
   become: yes
-  notify: Restart PostgreSQL
+  register: postgres_config
 
-  # is this maybe silly? Probably. Will it solve Travis? Maybe?
 - name: Restart PostgreSQL
   service: name=postgresql state=restarted
   become: yes
+  when: postgres_config | changed
 
 - name: Disable Login for postgres User
   postgresql_user:
