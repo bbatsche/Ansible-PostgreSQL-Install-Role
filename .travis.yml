@@ -6,7 +6,7 @@ language: generic
 
 before_install:
   # Remove the PostgreSQL installed by Travis
-  - sudo apt-get purge pgdg-keyring '^postgresql.*' -y
+  - sudo apt-get purge '^postgresql.*' -y
   - sudo apt-get autoremove -y -qq
   - sudo rm -rf /etc/postgresql
   - sudo rm -rf /var/lib/postgresql
