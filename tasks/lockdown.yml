@@ -9,13 +9,6 @@
   become: yes
   become_user: postgres
 
-- name: Disable Login for postres User
-  postgresql_user:
-    name:            postgres
-    role_attr_flags: NOLOGIN
-  become: yes
-  become_user: postgres
-
 - name: Require Password Authentication
   lineinfile:
     name: /etc/postgresql/9.3/main/pg_hba.conf
@@ -28,3 +21,11 @@
     - all
   become: yes
   notify: Restart PostgreSQL
+
+- name: Disable Login for postgres User
+  postgresql_user:
+    name:            postgres
+    db:              postgres
+    role_attr_flags: NOLOGIN
+    login_user:     "{{ postgres_admin }}"
+    login_password: "{{ postgres_pass }}"
