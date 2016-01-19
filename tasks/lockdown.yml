@@ -22,6 +22,11 @@
   become: yes
   notify: Restart PostgreSQL
 
+  # is this maybe silly? Probably. Will it solve Travis? Maybe?
+- name: Restart PostgreSQL
+  service: name=postgresql state=restarted
+  become: yes
+
 - name: Disable Login for postgres User
   postgresql_user:
     name:            postgres
