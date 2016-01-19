@@ -5,7 +5,7 @@
     password:        "{{ postgres_pass }}"
     encrypted:       yes
     state:           present
-    role_attr_flags: SUPERUSER CREATEDB CREATEROLE REPLICATION
+    role_attr_flags: SUPERUSER,CREATEDB,CREATEROLE,REPLICATION
   become: yes
   become_user: postgres
 
