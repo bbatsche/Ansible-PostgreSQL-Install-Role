@@ -2,8 +2,8 @@
 - name: Install
   apt: package={{ item }} state=present
   with_items:
-    - postgresql
-    - postgresql-contrib
+    - postgresql-{{ postgres_version }}
+    - postgresql-contrib-{{ postgres_version }}
     - python-psycopg2
   become: yes
   register: postgres_install
