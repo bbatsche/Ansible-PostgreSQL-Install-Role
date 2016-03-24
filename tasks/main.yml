@@ -15,5 +15,5 @@
   postgresql_ext:
     name: adminpack
     db:   postgres
-    login_user:     "{{ postgres_admin }}"
-    login_password: "{{ postgres_pass }}"
+    login_user:     "{{ db_admin }}"
+    login_password: "{{ db_pass }}"

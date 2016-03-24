@@ -10,8 +10,8 @@ This role will install and secure a basic PostgreSQL server.
 Role Variables
 --------------
 
-- `postgres_admin` &mdash; Admin username to be created. Default "vagrant"
-- `postgres_pass` &mdash; Password for admin user. Default "vagrant"
+- `db_admin` &mdash; Admin username to be created. Default "vagrant"
+- `db_pass` &mdash; Password for admin user. Default "vagrant"
 
 Example Playbook
 ----------------

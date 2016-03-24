@@ -1,8 +1,8 @@
 ---
 - name: Create Administrator
   postgresql_user:
-    name:            "{{ postgres_admin }}"
-    password:        "{{ postgres_pass }}"
+    name:            "{{ db_admin }}"
+    password:        "{{ db_pass }}"
     encrypted:       yes
     state:           present
     role_attr_flags: SUPERUSER,CREATEDB,CREATEROLE,REPLICATION
@@ -32,5 +32,5 @@
     name:            postgres
     db:              postgres
     role_attr_flags: NOLOGIN
-    login_user:     "{{ postgres_admin }}"
-    login_password: "{{ postgres_pass }}"
+    login_user:     "{{ db_admin }}"
+    login_password: "{{ db_pass }}"
