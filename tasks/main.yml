@@ -1,6 +1,6 @@
 ---
 - name: Install
-  apt: name={{ item }} state=present
+  apt: name={{ item }} state=present update_cache=yes cache_valid_time=86400
   with_items:
     - postgresql-{{ postgres_version }}
     - postgresql-contrib-{{ postgres_version }}
