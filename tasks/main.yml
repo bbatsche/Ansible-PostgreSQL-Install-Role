@@ -1,15 +1,26 @@
 ---
-- name: Install
-  apt: name={{ item }} state=present update_cache=yes cache_valid_time=86400
-  with_items:
-    - postgresql-{{ postgres_version }}
-    - postgresql-contrib-{{ postgres_version }}
-    - python-psycopg2
-  become: yes
-  register: postgres_install
+- block:
+  - name: Add APT Key
+    apt_key:
+      url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+      state: present
+    become: yes
 
-- include: lockdown.yml
-  when: postgres_install | changed
+  - name: Add APT Repository
+    apt_repository: repo="deb http://apt.postgresql.org/pub/repos/apt/ {{ ansible_distribution_release }}-pgdg main"
+    become: yes
+
+  - name: Install
+    apt: name={{ item }} state=present update_cache=yes cache_valid_time=86400
+    with_items:
+      - postgresql-{{ postgres_version }}
+      - postgresql-contrib-{{ postgres_version }}
+      - libpq-dev
+      - python-psycopg2
+    become: yes
+
+  - include: lockdown.yml
+  when: install_postgres
 
 - name: Add Adminpack
   postgresql_ext:

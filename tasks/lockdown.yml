@@ -11,26 +11,16 @@
 
 - name: Require Password Authentication
   lineinfile:
-    name: /etc/postgresql/9.3/main/pg_hba.conf
-    regexp: (local\s+all\s+{{ item }}\s+)peer
+    name: /etc/postgresql/{{ postgres_version }}/main/pg_hba.conf
+    regexp: (local\s+all\s+all\s+)peer
     line: \1md5
     state: present
     backrefs: yes
-  with_items:
-    - postgres
-    - all
   become: yes
-  register: postgres_config
+  register: pg_hba_result
+  notify: Restart PostgreSQL
 
 - name: Restart PostgreSQL
   service: name=postgresql state=restarted
   become: yes
-  when: postgres_config | changed
-
-- name: Disable Login for postgres User
-  postgresql_user:
-    name:            postgres
-    db:              postgres
-    role_attr_flags: NOLOGIN
-    login_user:     "{{ db_admin }}"
-    login_password: "{{ db_pass }}"
+  when: pg_hba_result | changed

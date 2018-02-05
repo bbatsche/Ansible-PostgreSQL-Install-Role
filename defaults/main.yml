@@ -1,3 +1,7 @@
 ---
+install_postgres: no
+
+postgres_version: 9.6
+
 db_admin: vagrant
 db_pass:  vagrant

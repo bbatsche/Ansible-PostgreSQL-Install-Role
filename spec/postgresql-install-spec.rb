@@ -1,19 +1,18 @@
-require_relative "lib/ansible_helper"
 require_relative "bootstrap"
 
 RSpec.configure do |config|
   config.before :suite do
-    AnsibleHelper.instance.playbook "playbooks/install-postgresql.yml"
+    AnsibleHelper.playbook "playbooks/install-postgresql.yml", ENV["TARGET_HOST"], install_postgres: true
   end
 end
 
 describe command("psql --version") do
-  its(:stdout) { should match /\b9\.3\.\d+/ }
+  its(:stdout) { should match /\b9\.6\.\d+/ }
 
   its(:exit_status) { should eq 0 }
 end
 
-describe service('postgres') do
+describe service('postgresql') do
   it { should be_running }
 end
 
@@ -25,13 +24,7 @@ describe command("psql -w -U vagrant postgres") do
 end
 
 describe command("psql -w -U postgres postgres") do
-  its(:stderr) { should match /no password supplied/ }
-
-  its(:exit_status) { should_not eq 0 }
-end
-
-describe command("sudo su - postgres -c 'psql -w'") do
-  its(:stderr) { should match /no password supplied/ }
+  its(:stderr) { should match /Peer authentication failed/ }
 
   its(:exit_status) { should_not eq 0 }
 end
