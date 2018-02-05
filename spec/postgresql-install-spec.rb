@@ -32,6 +32,7 @@ end
 describe 'PSQL commands as vagrant' do
   before(:context) do
     set :env, :PGPASSWORD => 'vagrant'
+    set :docker_container_exec_options, :Env => ["PGPASSWORD=vagrant"]
   end
 
   describe command("psql -w -U vagrant postgres -c \"SELECT count(*) FROM pg_shadow WHERE usename = 'vagrant'\"") do
