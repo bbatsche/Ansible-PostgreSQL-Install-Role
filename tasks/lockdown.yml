@@ -1,4 +1,8 @@
 ---
+- name: Start PostgreSQL
+  service: name=postgresql state=started enabled=yes
+  become: yes
+
 - name: Create Administrator
   postgresql_user:
     name:            "{{ db_admin }}"
