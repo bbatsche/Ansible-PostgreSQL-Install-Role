@@ -20,6 +20,10 @@
     - name: Gathering Facts
       setup:
 
+    - name: Install Sudo
+      apt: name=sudo state=present
+      when: ansible_connection | default('smart') == 'docker'
+
   tasks:
     - name: Always Expand Bash Aliases
       copy:
