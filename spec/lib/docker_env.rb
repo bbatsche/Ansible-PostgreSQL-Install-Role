@@ -44,6 +44,6 @@ class DockerEnv
   end
 
   def inventory_line
-    "#{@name} ansible_connection=docker ansible_user=root ansible_become_method=su"
+    "#{@name} ansible_connection=docker ansible_user=root"
   end
 end
