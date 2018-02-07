@@ -2,6 +2,9 @@
 install_postgres: no
 
 postgres_version: 9.6
+postgres_enable_network: no
 
 db_admin: vagrant
 db_pass:  vagrant
+
+timezone: Etc/UTC

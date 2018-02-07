@@ -19,6 +19,15 @@
       - python-psycopg2
     become: yes
 
+  - name: Copy Config File
+    template:
+      src:  postgresql.conf.j2
+      dest: /etc/postgresql/{{ postgres_version }}/main/postgresql.conf
+      owner: postgres
+      group: postgres
+      mode:  0644
+    become: yes
+
   - include: lockdown.yml
   when: install_postgres
 

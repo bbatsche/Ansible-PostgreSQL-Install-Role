@@ -13,16 +13,15 @@
   become: yes
   become_user: postgres
 
-- name: Require Password Authentication
-  lineinfile:
-    name: /etc/postgresql/{{ postgres_version }}/main/pg_hba.conf
-    regexp: (local\s+all\s+all\s+)peer
-    line: \1md5
-    state: present
-    backrefs: yes
+- name: Copy pg_hba Config
+  template:
+    src:  pg_hba.conf.j2
+    dest: /etc/postgresql/{{ postgres_version }}/main/pg_hba.conf
+    owner: postgres
+    group: postgres
+    mode:  0640
   become: yes
   register: pg_hba_result
-  notify: Restart PostgreSQL
 
 - name: Restart PostgreSQL
   service: name=postgresql state=restarted
