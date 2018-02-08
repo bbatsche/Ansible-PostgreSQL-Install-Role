@@ -51,6 +51,10 @@
         - lsb-core
         - netcat
 
+    - name: Install Language Pack
+      apt: name=language-pack-en state=present
+      become: yes
+
   handlers:
     - name: Restart SSH
       service: name=ssh state=restarted
