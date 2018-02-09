@@ -62,3 +62,21 @@ shared_examples "postgres security" do
     end
   end
 end
+
+shared_examples "postgres setting" do |variable, value|
+  before(:context) do
+    set :env, :PGPASSWORD => 'vagrant'
+    set :docker_container_exec_options, :Env => ["PGPASSWORD=vagrant"]
+  end
+
+  describe variable do
+    let(:subject) do
+      result = command %Q|psql -wtA -U vagrant postgres -c "SELECT setting FROM pg_settings WHERE name = '#{variable}'"|
+      result.stdout.strip
+    end
+
+    it "is #{value}" do
+      expect(subject).to eq value
+    end
+  end
+end

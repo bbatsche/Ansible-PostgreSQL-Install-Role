@@ -107,7 +107,7 @@ ssl_key_file = '/etc/ssl/private/ssl-cert-snakeoil.key' # (change requires resta
 
 # - Memory -
 
-shared_buffers = {{ postgres_shared_buffers | default((ansible_memtotal_mb * (postgres_shared_buffers_percet | default(15) / 100)) | int | string + "MB") }} # min 128kB
+shared_buffers = {{ postgres_shared_buffers | default((ansible_memtotal_mb * (postgres_shared_buffers_percent | default(15) / 100)) | int | string + "MB") }} # min 128kB
                                # (change requires restart)
 #huge_pages = try              # on, off, or try
                                # (change requires restart)
@@ -176,7 +176,7 @@ dynamic_shared_memory_type = posix # the default is the first option
 #fsync = on                   # flush data to disk for crash safety
                               # (turning this off can cause
                               # unrecoverable data corruption)
-synchronous_commit = {{ postgres_syncronous_commit | default ("on") }} # synchronization level;
+synchronous_commit = {{ postgres_synchronous_commit | default ("on") }} # synchronization level;
                               # off, local, remote_write, remote_apply, or on
 #wal_sync_method = fsync      # the default is the first option
                               # supported by the operating system:
@@ -200,8 +200,8 @@ synchronous_commit = {{ postgres_syncronous_commit | default ("on") }} # synchro
 # - Checkpoints -
 
 checkpoint_timeout = {{ postgres_checkpoint_timeout | default("30min" )}} # range 30s-1d
-max_wal_size = {{ postgres_min_wal_size | default("1GB") }}
-min_wal_size = {{ postgres_max_wal_size | default("2GB") }}
+min_wal_size = {{ postgres_min_wal_size | default("1GB") }}
+max_wal_size = {{ postgres_max_wal_size | default("2GB") }}
 checkpoint_completion_target = {{ postgres_checkpoint_completion_target | default(0.8) }} # checkpoint target duration, 0.0 - 1.0
 #checkpoint_flush_after = 256kB     # measured in pages, 0 disables
 #checkpoint_warning = 30s           # 0 disables
@@ -294,7 +294,7 @@ checkpoint_completion_target = {{ postgres_checkpoint_completion_target | defaul
 #parallel_tuple_cost = 0.1    # same scale as above
 #parallel_setup_cost = 1000.0 # same scale as above
 #min_parallel_relation_size = 8MB
-effective_cache_size = {{ postgres_effective_cache_size | default((ansible_memtotal_mb * (postgres_effective_cache_percet | default(75) / 100)) | int | string + "MB") }}
+effective_cache_size = {{ postgres_effective_cache_size | default((ansible_memtotal_mb * (postgres_effective_cache_percent | default(75)) / 100) | int | string + "MB") }}
 
 # - Genetic Query Optimizer -
 

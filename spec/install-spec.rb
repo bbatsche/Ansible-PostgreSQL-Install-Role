@@ -14,3 +14,8 @@ end
 context "Security" do
   include_examples "postgres security"
 end
+
+context "Default Settings" do
+  include_examples "postgres setting", "listen_addresses", "localhost"
+  include_examples "postgres setting", "synchronous_commit", "on"
+end

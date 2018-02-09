@@ -27,6 +27,7 @@
       group: postgres
       mode:  0644
     become: yes
+    notify: Restart PostgreSQL
 
   - include: lockdown.yml
   when: install_postgres
