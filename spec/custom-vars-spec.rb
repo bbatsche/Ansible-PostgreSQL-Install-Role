@@ -62,7 +62,7 @@ context "Settings" do
     let(:totalMem) { host_inventory["memory"]["total"].to_i }
 
     it "is 90% of total memory" do
-      expect(subject).to be_within(200).of ((totalMem * 0.9) / 8).to_i
+      expect(subject).to be_within(300).of ((totalMem * 0.9) / 8).to_i
     end
   end
 end

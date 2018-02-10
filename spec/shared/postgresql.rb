@@ -48,14 +48,10 @@ shared_examples "postgres security" do
     end
 
     describe "Admin user" do
-      let(:subject) { command %Q{psql -w -U vagrant postgres -c "SELECT passwd FROM pg_shadow WHERE usename = 'vagrant'"} }
-
-      it "connected" do
-        expect(subject.stdout).to match /\(1 row\)/
-      end
+      let(:subject) { command %Q{psql -wtA -U vagrant postgres -c "SELECT passwd FROM pg_shadow WHERE usename = 'vagrant'"} }
 
       it "has a hashed password" do
-        expect(subject.stdout).to match /\bmd5[[:xdigit:]]+/
+        expect(subject.stdout.strip).to match /\bmd5[[:xdigit:]]+/
       end
 
       include_examples "no errors"

@@ -38,3 +38,9 @@
     db:   postgres
     login_user:     "{{ db_admin }}"
     login_password: "{{ db_pass }}"
+
+- include: user.yml
+  when: new_db_user is defined and new_db_pass is defined
+
+- include: database.yml
+  when: new_db_name is defined

@@ -1,0 +1,18 @@
+---
+- name: Create Database
+  postgresql_db:
+    name:           "{{ new_db_name }}"
+    login_user:     "{{ db_admin }}"
+    login_password: "{{ db_pass }}"
+    owner:          "{{ db_admin if new_db_priv is defined else new_db_user }}"
+    state:          present
+
+- name: Revoke Public Connect Privileges
+  postgresql_privs:
+    database:       "{{ new_db_name }}"
+    login_user:     "{{ db_admin }}"
+    login_password: "{{ db_pass }}"
+    priv:           CONNECT
+    role:           PUBLIC
+    state:          absent
+    type:           database
