@@ -1,35 +1,6 @@
 ---
-- block:
-  - name: Add APT Key
-    apt_key:
-      url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
-      state: present
-    become: yes
-
-  - name: Add APT Repository
-    apt_repository: repo="deb http://apt.postgresql.org/pub/repos/apt/ {{ ansible_distribution_release }}-pgdg main"
-    become: yes
-
-  - name: Install
-    apt: name={{ item }} state=present update_cache=yes cache_valid_time=86400
-    with_items:
-      - postgresql-{{ postgres_version }}
-      - postgresql-contrib-{{ postgres_version }}
-      - libpq-dev
-      - python-psycopg2
-    become: yes
-
-  - name: Copy Config File
-    template:
-      src:  postgresql.conf.j2
-      dest: /etc/postgresql/{{ postgres_version }}/main/postgresql.conf
-      owner: postgres
-      group: postgres
-      mode:  0644
-    become: yes
-    notify: Restart PostgreSQL
-
-  - include: lockdown.yml
+- include: install.yml
+  static: no
   when: install_postgres
 
 - name: Add Adminpack

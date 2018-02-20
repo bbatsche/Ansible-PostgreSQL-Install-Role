@@ -26,4 +26,4 @@
 - name: Restart PostgreSQL
   service: name=postgresql state=restarted
   become: yes
-  when: pg_hba_result | changed
+  when: pg_hba_result is changed
