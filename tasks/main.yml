@@ -11,7 +11,13 @@
     login_password: "{{ db_pass }}"
 
 - include: user.yml
+  static: no
   when: new_db_user is defined and new_db_pass is defined
 
 - include: database.yml
+  static: no
   when: new_db_name is defined
+
+- include: privs.yml
+  static: no
+  when: new_schema_priv is defined or new_table_priv is defined or new_sequence_priv is defined

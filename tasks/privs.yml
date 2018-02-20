@@ -1,0 +1,59 @@
+---
+- name: Allow Connect For Database
+  postgresql_privs:
+    role:            "{{ new_db_user }}"
+    database:        "{{ new_db_name }}"
+    type:            database
+    login_user:      "{{ db_admin }}"
+    login_password:  "{{ db_pass }}"
+    privs:           CONNECT
+    state:           present
+
+- name: Allow Usage for Schema
+  postgresql_privs:
+    role:            "{{ new_db_user }}"
+    database:        "{{ new_db_name }}"
+    type:            schema
+    objs:            "{{ new_db_schema | default('public') }}"
+    login_user:      "{{ db_admin }}"
+    login_password:  "{{ db_pass }}"
+    privs:           USAGE
+    state:           present
+
+- name: Add Schema Privileges
+  postgresql_privs:
+    role:            "{{ new_db_user }}"
+    database:        "{{ new_db_name }}"
+    type:            schema
+    objs:            "{{ new_db_schema | default('public') }}"
+    login_user:      "{{ db_admin }}"
+    login_password:  "{{ db_pass }}"
+    privs:           "{{ new_schema_priv }}"
+    state:           present
+  when: new_schema_priv is defined
+
+- name: Add Table Privileges
+  postgresql_privs:
+    role:            "{{ new_db_user }}"
+    database:        "{{ new_db_name }}"
+    schema:          "{{ new_db_schema | default('public') }}"
+    type:            table
+    objs:            ALL_IN_SCHEMA
+    login_user:      "{{ db_admin }}"
+    login_password:  "{{ db_pass }}"
+    privs:           "{{ new_table_priv }}"
+    state:           present
+  when: new_table_priv is defined
+
+- name: Add Sequence Privileges
+  postgresql_privs:
+    role:            "{{ new_db_user }}"
+    database:        "{{ new_db_name }}"
+    schema:          "{{ new_db_schema | default('public') }}"
+    type:            sequence
+    objs:            ALL_IN_SCHEMA
+    login_user:      "{{ db_admin }}"
+    login_password:  "{{ db_pass }}"
+    privs:           "{{ new_sequence_priv }}"
+    state:           present
+  when: new_sequence_priv is defined
