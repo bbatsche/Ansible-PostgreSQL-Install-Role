@@ -1,11 +1,23 @@
 ---
+# We need to create the database if it doesn't exist
+# However, if it does we don't want to acciedentally change its ownership,
+#   if all we want to do is grant limited privs to that user
+- name: Check for Database
+  command: psql -U {{ db_admin }} {{ new_db_name }}
+  register: postgres_db_result
+  failed_when: no
+  changed_when: no
+  environment:
+    PGPASSWORD: "{{ db_pass }}"
+
 - name: Create Database
   postgresql_db:
     name:           "{{ new_db_name }}"
     login_user:     "{{ db_admin }}"
     login_password: "{{ db_pass }}"
-    owner:          "{{ db_admin if new_db_priv is defined else new_db_user }}"
+    owner:          "{{ new_db_user | default(db_admin) }}"
     state:          present
+  when: postgres_db_result.stderr is search('database "' + new_db_name + '" does not exist')
 
 - name: Revoke Public Connect Privileges
   postgresql_privs:
@@ -16,3 +28,14 @@
     role:           PUBLIC
     state:          absent
     type:           database
+
+- name: Revoke Public Create Privileges
+  postgresql_privs:
+    database:       "{{ new_db_name }}"
+    login_user:     "{{ db_admin }}"
+    login_password: "{{ db_pass }}"
+    priv:           CREATE
+    role:           PUBLIC
+    objs:           public
+    state:          absent
+    type:           schema
