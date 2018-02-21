@@ -22,6 +22,7 @@ Role Variables
     - `schema` &mdash; List of schema privileges to grant
     - `table` &mdash; List of table privileges to grant
     - `sequence` &mdash; List of sequence privileges to grant
+- `new_db_schema` &mdash; Schema to use when setting object privileges. Default is "public"
 - `timezone` &mdash; Server timezone to set. Default is "Etc/UTC"
 - `postgres_enable_network` &mdash; Whether or not server should listen to external network connections. Default is no
 - `postgres_ipv4_hba_host` &mdash; IPv4 address to allow connection from. If networking is disabled default is "127.0.0.1/32", otherwise default is "samenet"
@@ -42,13 +43,33 @@ Role Variables
 - `postgres_effective_cache_percent` &mdash; Percentage of system memory to use for effective cache size, used for estimating query costs. Default is "75"
 - `postgres_effective_cache_size` &mdash; Total amount of memory to set for effective cache size. Default is calculated based on `postgres_effective_cache_percent`
 
-Example Playbook
+Example Playbooks
 ----------------
+
+Install the server and create a database:
 
 ```yml
 - hosts: servers
   roles:
-     - { role: bbatsche.PotgreSQL }
+    - role: bbatsche.PotgreSQL
+      install_postgres: yes
+      new_db_name: my_database
+      new_db_user: my_database_owner
+      new_db_pass: n0tV3ry$ecuRe
+```
+
+Create a basic CRUD style user for the `my_database`:
+
+```yml
+- hosts: servers
+  roles:
+    - role: bbatsche.PotgreSQL
+      new_db_name: my_database
+      new_db_user: crud_user
+      new_db_pass: n0tV3ry$ecuRe
+      new_db_priv:
+        table: [ "SELECT", "INSERT", "UPDATE", "DELETE", "TRUNCATE" ]
+        sequence: [ "USAGE" ]
 ```
 
 License
