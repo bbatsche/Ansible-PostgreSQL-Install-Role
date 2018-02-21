@@ -28,9 +28,9 @@
     objs:            "{{ new_db_schema | default('public') }}"
     login_user:      "{{ db_admin }}"
     login_password:  "{{ db_pass }}"
-    privs:           "{{ new_schema_priv }}"
+    privs:           "{{ new_db_priv.schema | join(',') }}"
     state:           present
-  when: new_schema_priv is defined
+  when: new_db_priv.schema is defined
 
 - name: Add Table Privileges
   postgresql_privs:
@@ -41,9 +41,9 @@
     objs:            ALL_IN_SCHEMA
     login_user:      "{{ db_admin }}"
     login_password:  "{{ db_pass }}"
-    privs:           "{{ new_table_priv }}"
+    privs:           "{{ new_db_priv.table | join(',') }}"
     state:           present
-  when: new_table_priv is defined
+  when: new_db_priv.table is defined
 
 - name: Add Sequence Privileges
   postgresql_privs:
@@ -54,6 +54,6 @@
     objs:            ALL_IN_SCHEMA
     login_user:      "{{ db_admin }}"
     login_password:  "{{ db_pass }}"
-    privs:           "{{ new_sequence_priv }}"
+    privs:           "{{ new_db_priv.sequence | join(',') }}"
     state:           present
-  when: new_sequence_priv is defined
+  when: new_db_priv.sequence is defined

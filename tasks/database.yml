@@ -1,7 +1,6 @@
 ---
 # We need to create the database if it doesn't exist
-# However, if it does we don't want to acciedentally change its ownership,
-#   if all we want to do is grant limited privs to that user
+# However, if it does we don't want to acciedentally change its ownership
 - name: Check for Database
   command: psql -U {{ db_admin }} {{ new_db_name }}
   register: postgres_db_result
@@ -10,12 +9,14 @@
   environment:
     PGPASSWORD: "{{ db_pass }}"
 
+# Grant ownership to new_db_user unless privileges are defined
+# Privs mean we want to restrict the user to some subset of permissions
 - name: Create Database
   postgresql_db:
     name:           "{{ new_db_name }}"
     login_user:     "{{ db_admin }}"
     login_password: "{{ db_pass }}"
-    owner:          "{{ new_db_user | default(db_admin) }}"
+    owner:          "{{ db_admin if new_db_priv is defined else new_db_user }}"
     state:          present
   when: postgres_db_result.stderr is search('database "' + new_db_name + '" does not exist')
 

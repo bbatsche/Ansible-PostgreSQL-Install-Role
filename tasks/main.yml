@@ -20,4 +20,4 @@
 
 - include: privs.yml
   static: no
-  when: new_schema_priv is defined or new_table_priv is defined or new_sequence_priv is defined
+  when: new_db_priv is defined

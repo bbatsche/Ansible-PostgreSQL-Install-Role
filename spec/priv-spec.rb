@@ -4,15 +4,10 @@ RSpec.configure do |config|
   config.before :suite do
     AnsibleHelper.playbook("playbooks/install-postgresql.yml", ENV["TARGET_HOST"], {
       install_postgres: true,
-      new_db_name:      "priv_test_db"
-    })
-    AnsibleHelper.playbook("playbooks/install-postgresql.yml", ENV["TARGET_HOST"], {
-      install_postgres:  false,
-      new_db_user:       "test_ro_user",
-      new_db_pass:       "password",
-      new_db_name:       "priv_test_db",
-      new_table_priv:    "SELECT",
-      new_sequence_priv: "SELECT"
+      new_db_user:      "test_ro_user",
+      new_db_pass:      "password",
+      new_db_name:      "priv_test_db",
+      new_db_priv:      { table: [ "SELECT" ], sequence: [ "SELECT" ] }
     })
   end
 end
