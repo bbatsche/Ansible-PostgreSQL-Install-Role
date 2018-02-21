@@ -1,15 +1,7 @@
 ---
-- name: Install
-  apt: name={{ item }} state=present update_cache=yes cache_valid_time=86400
-  with_items:
-    - postgresql-{{ postgres_version }}
-    - postgresql-contrib-{{ postgres_version }}
-    - python-psycopg2
-  become: yes
-  register: postgres_install
-
-- include: lockdown.yml
-  when: postgres_install | changed
+- include: install.yml
+  static: no
+  when: install_postgres
 
 - name: Add Adminpack
   postgresql_ext:
@@ -17,3 +9,15 @@
     db:   postgres
     login_user:     "{{ db_admin }}"
     login_password: "{{ db_pass }}"
+
+- include: user.yml
+  static: no
+  when: new_db_user is defined and new_db_pass is defined
+
+- include: database.yml
+  static: no
+  when: new_db_name is defined
+
+- include: privs.yml
+  static: no
+  when: new_db_priv is defined
