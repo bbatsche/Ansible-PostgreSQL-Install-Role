@@ -28,4 +28,5 @@
   become: yes
   notify: Restart PostgreSQL
 
-- include: lockdown.yml
+- name: Secure Server
+  import_tasks: lockdown.yml

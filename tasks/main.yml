@@ -1,6 +1,6 @@
 ---
-- include: install.yml
-  static: no
+- name: Install Postgres
+  include_tasks: install.yml
   when: install_postgres
 
 - name: Add Adminpack
@@ -10,14 +10,14 @@
     login_user:     "{{ db_admin }}"
     login_password: "{{ db_pass }}"
 
-- include: user.yml
-  static: no
+- name: Create or Update User
+  include_tasks: user.yml
   when: new_db_user is defined and new_db_pass is defined
 
-- include: database.yml
-  static: no
+- name: Create or Modify Database
+  include_tasks: database.yml
   when: new_db_name is defined
 
-- include: privs.yml
-  static: no
+- name: Modify User Privileges
+  include_tasks: privs.yml
   when: new_db_priv is defined
