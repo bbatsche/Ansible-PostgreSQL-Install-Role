@@ -2,11 +2,25 @@
 - hosts: all
   gather_facts: false
 
-  vars:
-    swap_mb: 512
-
   roles:
     - bbatsche.Base
+    - role: tersmitten.swapfile
+      become: yes
+      when:
+        - ansible_connection | default('smart') != 'local'
+        - ansible_connection | default('smart') != 'docker'
+
+  pre_tasks:
+    - name: Install python2 for Ansible
+      raw: bash -c "test -e /usr/bin/python || (apt -qqy update && apt install -qqy python-minimal)"
+      become: yes
+      register: output
+      changed_when:
+        - output.stdout != ""
+        - output.stdout != "\r\n"
+
+    - name: Gathering Facts
+      setup:
 
   pre_tasks:
     - name: Install python2 for Ansible
@@ -50,6 +64,8 @@
         - lsb-release
         - lsb-core
         - netcat
+        - net-tools
+        - iproute2
 
     - name: Install Language Pack
       apt: name=language-pack-en state=present
