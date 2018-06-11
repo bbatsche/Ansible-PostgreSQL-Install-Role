@@ -22,18 +22,6 @@
     - name: Gathering Facts
       setup:
 
-  pre_tasks:
-    - name: Install python2 for Ansible
-      raw: bash -c "test -e /usr/bin/python || (apt -qqy update && apt install -qqy python-minimal)"
-      become: yes
-      register: output
-      changed_when:
-        - output.stdout != ""
-        - output.stdout != "\r\n"
-
-    - name: Gathering Facts
-      setup:
-
     - name: Install Sudo
       apt: name=sudo state=present
       when: ansible_connection | default('smart') == 'docker'
