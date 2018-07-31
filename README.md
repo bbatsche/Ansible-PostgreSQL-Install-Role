@@ -1,7 +1,11 @@
 Ansible PostgreSQL Role
 ===============================
 
-[![Build Status](https://travis-ci.org/bbatsche/Ansible-PostgreSQL-Role.svg?branch=master)](https://travis-ci.org/bbatsche/Ansible-PostgreSQL-Role) [![Ansible Galaxy](https://img.shields.io/ansible/role/24010.svg)](https://galaxy.ansible.com/bbatsche/PostgreSQL)
+[![Build Status](https://travis-ci.org/bbatsche/Ansible-PostgreSQL-Role.svg)](https://travis-ci.org/bbatsche/Ansible-PostgreSQL-Role)
+[![License](https://img.shields.io/github/license/bbatsche/Ansible-Role-Template.svg)](LICENSE)
+[![Role Name](https://img.shields.io/ansible/role/24010.svg)](https://galaxy.ansible.com/bbatsche/PostgreSQL)
+[![Release Version](https://img.shields.io/github/tag/bbatsche/Ansible-PostgreSQL-Role.svg)](https://galaxy.ansible.com/bbatsche/PostgreSQL)
+[![Downloads](https://img.shields.io/ansible/role/d/24010.svg)](https://galaxy.ansible.com/bbatsche/PostgreSQL)
 
 This role will install, secure, and configure PostgreSQL server. It can be used to setup a new server, create a user/database, and/or grant privileges to a user.
 
