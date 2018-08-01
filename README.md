@@ -2,7 +2,7 @@ Ansible PostgreSQL Role
 ===============================
 
 [![Build Status](https://travis-ci.org/bbatsche/Ansible-PostgreSQL-Role.svg)](https://travis-ci.org/bbatsche/Ansible-PostgreSQL-Role)
-[![License](https://img.shields.io/github/license/bbatsche/Ansible-Role-Template.svg)](LICENSE)
+[![License](https://img.shields.io/github/license/bbatsche/Ansible-PostgreSQL-Role.svg)](LICENSE)
 [![Role Name](https://img.shields.io/ansible/role/24010.svg)](https://galaxy.ansible.com/bbatsche/PostgreSQL)
 [![Release Version](https://img.shields.io/github/tag/bbatsche/Ansible-PostgreSQL-Role.svg)](https://galaxy.ansible.com/bbatsche/PostgreSQL)
 [![Downloads](https://img.shields.io/ansible/role/d/24010.svg)](https://galaxy.ansible.com/bbatsche/PostgreSQL)
